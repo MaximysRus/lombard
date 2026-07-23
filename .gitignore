@@ -1,0 +1,48 @@
+# ========================
+# Docker & Infrastructure
+# ========================
+pgdata/
+docker-compose.override.yml
+.env
+*.log
+
+# ========================
+# Node.js & Dependencies
+# ========================
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+package-lock.json
+
+# ========================
+# Backend (NestJS / Prisma)
+# ========================
+backend/dist/
+backend/.env
+backend/coverage/
+backend/.nyc_output/
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
+# ========================
+# Frontend (React / Vite)
+# ========================
+frontend/dist/
+frontend/build/
+frontend/.env
+frontend/.eslintcache
+frontend/coverage/
+
+# ========================
+# IDE & OS Files
+# ========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db

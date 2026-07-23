@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tariff {
+  id             Int      @id @default(autoincrement())
+  name           String
+  basePeriodDays Int
+  basePeriodRate Float
+  overdueRate    Float
+  pledges        Pledge[]
+  categories ItemCategory[]
+}
+
+model Client {
+  id       Int      @id @default(autoincrement())
+  fullName String
+  phone    String   @unique
+  pledges  Pledge[]
+}
+
+model ItemCategory {
+  id         Int          @id @default(autoincrement())
+  name       String
+  attributes Json
+  
+  tariffId   Int
+  tariff     Tariff       @relation(fields: [tariffId], references: [id])
+  
+  items      PledgeItem[]
+}
+
+
+model Pledge {
+  id         Int          @id @default(autoincrement())
+  tariffId   Int
+  clientId   Int
+  createdAt  DateTime     @default(now())
+  dueDate    DateTime
+  totalLoan  Float
+  status     String
+  redeemedAt DateTime?
+  redeemSum  Float?
+  
+  tariff     Tariff       @relation(fields: [tariffId], references: [id])
+  client     Client       @relation(fields: [clientId], references: [id])
+  items      PledgeItem[]
+}
+
+model PledgeItem {
+  id             Int          @id @default(autoincrement())
+  pledgeId       Int
+  categoryId     Int
+  name           String
+  attributesData Json         
+  estimatedValue Float
+  
+  pledge         Pledge       @relation(fields: [pledgeId], references: [id])
+  category       ItemCategory @relation(fields: [categoryId], references: [id])
+}
